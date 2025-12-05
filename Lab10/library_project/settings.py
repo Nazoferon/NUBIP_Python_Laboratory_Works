@@ -79,7 +79,7 @@ DATABASES = {
         'NAME': 'library_db',
         'USER': 'admin',
         'PASSWORD': 'password',
-        'HOST': 'postgres', # Ім'я сервісу в docker-compose
+        'HOST': 'postgres', # Ім'я сервісу в docker-compose. Контейнери спілкуються по внутрішній мережі Docker
         'PORT': '5432',
     }
 }

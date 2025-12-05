@@ -30,7 +30,10 @@ services:
       - "8080:80"
     networks:
       - library_network
-    depends_on:
+    # Вказує, що контейнер django-app не повинен запускатися,
+    # поки не запуститься postgres (бо Django одразу спробує підключитися до БД,
+    # і якщо її немає — впаде з помилкою).
+    depends_on: 
       postgres:
         condition: service_healthy
 
