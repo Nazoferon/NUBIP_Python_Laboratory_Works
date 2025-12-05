@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: library_postgres
+    environment:
+      POSTGRES_DB: library_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - library_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d library_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: library_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    networks:
+      - library_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  django-app:
+    build: 
+      context: .
+      dockerfile: Dockerfile.django
+    container_name: library_django
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app  # Монтуємо поточну папку, щоб файли з'явилися на хості
+    ports:
+      - "8000:8000"
+    networks:
+      - library_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+
+networks:
+  library_network:
+    driver: bridge

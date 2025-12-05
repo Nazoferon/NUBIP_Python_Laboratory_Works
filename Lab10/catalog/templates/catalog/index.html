@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Бібліотека Django</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .student-info {
+            font-style: italic;
+            color: #2c3e50; /* Темно-синій колір */
+            margin-bottom: 20px;
+        }
+        h2 { margin-top: 30px; margin-bottom: 15px; }
+        th { font-weight: bold; border-bottom: 2px solid #000 !important; }
+    </style>
+</head>
+<body class="container py-4">
+
+    <h1 class="text-center mb-4">Система управління бібліотекою</h1>
+    
+    <div class="student-info">
+        Виконав студент: {{ student_name }}, група {{ student_group }}
+    </div>
+
+    <h2>Книги</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Автор</th>
+                <th>Назва</th>
+                <th>Розділ</th>
+                <th>Рік</th>
+                <th>Ціна</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.inventory_number }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.section }}</td>
+                <td>{{ book.publication_year }}</td>
+                <td>{{ book.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Читачі</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Номер квитка</th>
+                <th>Прізвище</th>
+                <th>Ім'я</th>
+                <th>Група</th>
+                <th>Телефон</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reader in readers %}
+            <tr>
+                <td>{{ reader.reader_ticket_number }}</td>
+                <td>{{ reader.last_name }}</td>
+                <td>{{ reader.first_name }}</td>
+                <td>{{ reader.group_name }}</td>
+                <td>{{ reader.phone }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Журнал видачі книг</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID видачі</th>
+                <th>Дата</th>
+                <th>Читач (ПІБ + Група)</th>
+                <th>Книга (Назва + Автор)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for loan in loans %}
+            <tr>
+                <td>{{ loan.loan_id }}</td>
+                <td>{{ loan.loan_date }}</td>
+                <td>{{ loan.reader_ticket_number }}</td> 
+                <td>{{ loan.book_inventory_number }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
