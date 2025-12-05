@@ -9,8 +9,10 @@ media/
 # Environments
 .env
 .venv
+.Haniuk
 env/
 venv/
+Haniuk/
 ENV/
 env.bak/
 venv.bak/
